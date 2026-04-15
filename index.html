@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Violation Tracking System</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style-1.css">
+</head>
+
+<body>
+
+  <!-- ═══════ LOGIN ═══════ -->
+  <div id="login-screen" class="screen active">
+    <div class="login-bg-shapes">
+      <div class="bg-shape s1"></div>
+      <div class="bg-shape s2"></div>
+      <div class="bg-shape s3"></div>
+    </div>
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="TIP-INFORMAL-LOGO-04-2.png" alt="TIP Logo" width="100" height="70">
+        <h2>Technological Institute of the Philippines</h2>
+        <p>Student Violation Tracking System</p>
+      </div>
+
+      <h3>Sign in to your account</h3>
+
+      <div class="role-tabs">
+        <button class="role-tab" onclick="setRole('student', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Student
+        </button>
+        <button class="role-tab active" onclick="setRole('admin', this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          Administrator
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label>Username / Student ID</label>
+        <div class="input-icon-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <input type="text" id="login-user" placeholder="Enter your ID or username" value="admin001">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-icon-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          <input type="password" id="login-pass" placeholder="Enter your password" value="admin123">
+        </div>
+      </div>
+
+      <div id="login-error" class="login-error" style="display:none"></div>
+
+      <button class="btn-primary" onclick="doLogin()">
+        <span>Sign In</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════ APP ═══════ -->
+  <div id="app-screen" class="screen">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-row">
+            <img src="TIP-INFORMAL-LOGO-04-2.png" alt="TIP Logo" width="30" height="20" viewBox="0 0 24 24" fill="none">
+          <div class="logo-text">
+            <h2>SVTS</h2>
+            <p>Violation Tracking</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="user-badge">
+          <div class="user-avatar" id="sidebar-avatar">AD</div>
+          <div class="user-info">
+            <p id="sidebar-name">Admin User</p>
+            <span id="sidebar-role">Administrator</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+
+      <div class="sidebar-bottom">
+        <button class="nav-item signout-btn" onclick="logout()">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main-content">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="topbar-title" id="topbar-title">Dashboard</div>
+          <div class="topbar-subtitle" id="topbar-subtitle">Overview</div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-date" id="topbar-date"></div>
+          <div class="topbar-notif" onclick="navTo('notifications')" id="notif-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            <div class="dot" id="notif-dot"></div>
+          </div>
+          <div class="topbar-user" id="topbar-user-btn">
+            <div class="topbar-avatar" id="topbar-avatar">AD</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area" id="content-area"></div>
+    </div>
+  </div>
+
+  <!-- ═══ ADD/EDIT VIOLATION MODAL ═══ -->
+  <div class="modal-overlay" id="add-modal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-title">Record New Violation</h3>
+          <p id="modal-subtitle" style="font-size:12px;color:var(--gray-400);margin-top:2px">Fill in all required fields
+            accurately</p>
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field">
+            <label>Student ID <span class="required">*</span></label>
+            <input type="text" id="v-student-id" placeholder="e.g. 2512027">
+          </div>
+          <div class="field">
+            <label>Student Name <span class="required">*</span></label>
+            <input type="text" id="v-student-name" placeholder="Full name">
+          </div>
+          <div class="field">
+            <label>Program / Course</label>
+            <input type="text" id="v-program" placeholder="e.g. BSIT, BSCE">
+          </div>
+          <div class="field">
+            <label>Year Level</label>
+            <select id="v-year">
+              <option value="">Select year...</option>
+              <option>1st Year</option>
+              <option>2nd Year</option>
+              <option>3rd Year</option>
+              <option>4th Year</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Violation Type <span class="required">*</span></label>
+            <select id="v-type">
+              <option value="">Select type...</option>
+              <option>Dress Code Violation</option>
+              <option>Tardiness / Absence</option>
+              <option>Disruptive Behavior</option>
+              <option>Academic Dishonesty</option>
+              <option>Property Damage</option>
+              <option>Physical Altercation</option>
+              <option>Harassment / Bullying</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Severity <span class="required">*</span></label>
+            <select id="v-severity">
+              <option value="">Select...</option>
+              <option>Minor</option>
+              <option>Moderate</option>
+              <option>Major</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Date <span class="required">*</span></label>
+            <input type="date" id="v-date">
+          </div>
+          <div class="field">
+            <label>Location</label>
+            <input type="text" id="v-location" placeholder="e.g. Room 301, Canteen">
+          </div>
+          <div class="field form-full">
+            <label>Description</label>
+            <textarea id="v-desc" placeholder="Describe the incident in detail..."></textarea>
+          </div>
+          <div class="field">
+            <label>Reported By</label>
+            <input type="text" id="v-reporter" placeholder="Name of reporter">
+          </div>
+          <div class="field">
+            <label>Action Taken</label>
+            <select id="v-action">
+              <option value="">Select...</option>
+              <option>Verbal Warning</option>
+              <option>Written Warning</option>
+              <option>Parent Notification</option>
+              <option>Suspension</option>
+              <option>Community Service</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+          <button class="btn btn-navy" onclick="submitViolation()" id="modal-submit-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Save Violation Record
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIEW VIOLATION MODAL ═══ -->
+  <div class="modal-overlay" id="view-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3>Violation Details</h3>
+          <p id="view-modal-id" style="font-size:12px;color:var(--gray-400);margin-top:2px">Record ID</p>
+        </div>
+        <button class="modal-close" onclick="closeViewModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="view-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ═══ TOAST ═══ -->
+  <div id="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
