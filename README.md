@@ -1,0 +1,1 @@
+A web-based Student Violation Tracking System designed to help schools efficiently record, monitor, and manage student disciplinary cases. This system provides separate dashboards for Administrators and Students, with real-time updates and a clean, modern interface inspired by TIP.
