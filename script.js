@@ -1346,7 +1346,6 @@ function renderReportIncident(el) {
             <p style="margin-bottom:8px">• Reports are reviewed within 24–48 hours</p>
             <p style="margin-bottom:8px">• False reports may result in disciplinary action</p>
             <p style="margin-bottom:8px">• Anonymous reports are still confidential</p>
-            <p>• For emergencies, contact Security at <strong>local 101</strong></p>
           </div>
         </div>
       </div>
